@@ -1,0 +1,101 @@
+services:
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: digital_strichliste
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: minio_access_key
+      MINIO_ROOT_PASSWORD: minio_secret_key
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address :9001
+    ports:
+        - "9000:9000"
+        - "9001:9001"
+    networks:
+      - minio-network
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 minio_access_key minio_secret_key;
+      /usr/bin/mc mb myminio/profile-pictures;
+      /usr/bin/mc mb myminio/list-pictures;
+      /usr/bin/mc mb myminio/reason-pictures;
+      /usr/bin/mc mb myminio/done-pictures;
+      /usr/bin/mc policy set public myminio/profile-pictures;
+      /usr/bin/mc policy set public myminio/list-pictures;
+      /usr/bin/mc policy set public myminio/reason-pictures;
+      /usr/bin/mc policy set public myminio/done-pictures;
+      exit 0;
+      "
+    networks:
+      - minio-network
+
+  fastapi:
+    build:
+      context: ./app
+    container_name: fastapi-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      SECRET_KEY: "your_secret_key_here"
+    networks:
+      - postgres-network
+      - minio-network
+      - backend
+
+  genusswand-ui:
+    build: ./frontend/digitalergenuss
+    restart: always
+    ports:
+      - "3000:80"
+    networks:
+      - backend
+      - website
+
+
+networks:
+  postgres-network:
+  minio-network:
+  backend:
+  website:
+
+volumes:
+  postgres_data:
+  minio_data:
+  caddy_data:
+  caddy_config:

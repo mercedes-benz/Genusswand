@@ -1,0 +1,15 @@
+.idea
+./.idea
+.venv
+.env
+*/.env
+*/.env.*
+*/.venv
+*/node_modules
+node_modules
+*/.idea
+*/.idea/*
+*/.vscode
+*/.vscode/*
+.DS_Store
+*/.DS_Store
