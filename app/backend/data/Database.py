@@ -4,24 +4,27 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 import uuid
 
-DATABASE_URL = "postgresql://user:password@db/digital_strichliste"
+import os
 
-# Create a new FastAPI instance
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_USER = os.getenv("DB_USER", "user")
+DB_PASS = os.getenv("DB_PASS", "password")
+DB_DATABASE = os.getenv("DB_DATABASE", "digital_strichliste")
+
+DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_DATABASE}"
 
 
-# Initialize SQLAlchemy base and engine
 Base = declarative_base()
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Many-to-Many relationship table
+
 person_liste_table = Table('person_liste', Base.metadata,
                            Column('person_id', UUID(as_uuid=True), ForeignKey('persons.uuid')),
                            Column('liste_id', UUID(as_uuid=True), ForeignKey('listen.uuid'))
                            )
 
 
-# Define the Person model
 class Person(Base):
     __tablename__ = "persons"
     uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -36,7 +39,6 @@ class Person(Base):
     listen = relationship('Liste', secondary=person_liste_table, back_populates='personen')
 
 
-# Define the Liste model
 class Liste(Base):
     __tablename__ = "listen"
     uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -47,7 +49,6 @@ class Liste(Base):
     personen = relationship('Person', secondary=person_liste_table, back_populates='listen')
 
 
-# Define the Strich model
 class Strich(Base):
     __tablename__ = "striche"
     uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -72,5 +73,4 @@ class Foto(Base):
     large = Column(String, nullable=False)
 
 
-# Create all tables in the database
 Base.metadata.create_all(bind=engine)

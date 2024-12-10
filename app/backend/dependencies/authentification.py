@@ -13,8 +13,7 @@ from pydantic import BaseModel
 
 import os
 
-# Zugriff auf die Environment-Variable SECRET_KEY
-SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")
+SECRET_KEY = os.getenv("SECRET_HASH_KEY", "default_secret_key")
 
 
 

@@ -9,11 +9,20 @@ from sqlalchemy.orm import Session
 from PIL import Image as PILImage
 from backend.data.Database import Foto
 
+import os
+
+MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost:9000")
+MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minio_access_key")
+MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minio_secret_key")
+MINIO_SECURE = os.getenv("MINIO_SECURE", False)
+
+MINIO_SECURE_BOOL = MINIO_SECURE.lower() == "true"
+print(MINIO_SECURE_BOOL)
 minio_client = Minio(
-    "minio:9000",  # Minio endpoint
-    access_key="minio_access_key",
-    secret_key="minio_secret_key",
-    secure=False  # Set to True if Minio uses SSL
+    endpoint=MINIO_ENDPOINT,
+    access_key=MINIO_ACCESS_KEY,
+    secret_key=MINIO_SECRET_KEY,
+    secure=MINIO_SECURE_BOOL
 )
 
 BUCKET_NAME = "foto-bucket"

@@ -13,5 +13,35 @@ node_modules
 */.vscode/*
 .DS_Store
 */.DS_Storea
-*/*.pyc
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*/__pycache__/
+
+*.py[cod]
+*.cpython-310.pyc
+app/backend/dependencies/__pycache__/
+app/backend/data/__pycache__/
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 *.pyc
+/app/backend/data/__pycache__

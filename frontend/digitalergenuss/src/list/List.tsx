@@ -28,7 +28,7 @@ import {
     IMAGE_UPLOAD_URL_STRICH_REASON,
     USER_GET_USER,
     USER_PROFILE_IMAGE_SMALL,
-    LIST_ADD_USER_URL, STRICH_SET_DONE, LIST_GET_SPECIFIC_LIST_NAME
+    LIST_ADD_USER_URL, STRICH_SET_DONE, LIST_GET_SPECIFIC_LIST_NAME, HTTP_AUTH_HEADERS, STRICH_GET_IMAGE_MEDIUM
 } from '../global/constants/constants';
 import {styled} from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
@@ -36,6 +36,7 @@ import MuiCard from "@mui/material/Card";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import Typography from "@mui/material/Typography";
+import {Image} from "@mui/icons-material";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -112,6 +113,7 @@ export default function SpecificListPage() {
     const navigate = useNavigate();
     const [title, setTitle] = useState<string>('');
     const [imageCache, setImageCache] = useState<{ [key: string]: string }>({});
+    const [reasonImageSrc, setReasonImageSrc] = useState<string | null>(null);
 
     const getProfileImage = useCallback(async (userId: string) => {
         if (imageCache[userId]) {
@@ -139,6 +141,42 @@ export default function SpecificListPage() {
         return null;
     }, [imageCache]);
 
+    const getReasonImage = useCallback(async (strich_id: string) => {
+        if (imageCache[strich_id]) {
+            return imageCache[strich_id];
+        }
+
+        try {
+            const response = await fetch(REQUEST_URL + STRICH_GET_IMAGE_MEDIUM + `/${strich_id}`, {
+                method: HTTP_METHOD_GET,
+                headers: HTTP_JSON_HEADERS_WITH_AUTH(getCredentialCookie())
+            });
+
+            if (response.ok) {
+                const data = await response.blob();
+                const imageUrl = URL.createObjectURL(data);
+
+                setImageCache(prevCache => ({...prevCache, [strich_id]: imageUrl}));
+
+                return imageUrl;
+            }
+        } catch (error) {
+            console.error("Error fetching strich image:", error);
+        }
+
+        return null;
+    }, [imageCache]);
+
+    useEffect(() => {
+        const fetchReasonImage = async () => {
+            if (selectedStrich && selectedStrich.reason_image_id) {
+                const imageUrl = await getReasonImage(selectedStrich.uuid);
+                setReasonImageSrc(imageUrl);
+            }
+        };
+
+        fetchReasonImage();
+    }, [selectedStrich, getReasonImage]);
 
     useEffect(() => {
         const fetchStriche = async () => {
@@ -162,8 +200,6 @@ export default function SpecificListPage() {
                     .catch(error => {
                         console.error("Error fetching list name:", error);
                     });
-
-
 
 
                 const response = await fetch(
@@ -289,7 +325,6 @@ export default function SpecificListPage() {
             const response = await fetch(REQUEST_URL + IMAGE_UPLOAD_URL_STRICH_REASON, {
                 method: 'POST',
                 body: formData,
-                headers: HTTP_JSON_HEADERS_WITH_AUTH(getCredentialCookie())
             });
 
             if (!response.ok) {
@@ -473,16 +508,17 @@ export default function SpecificListPage() {
                         <Dialog open={strichDialogOpen} onClose={handleCloseStrichDialog}>
                             <DialogTitle>Strich Details</DialogTitle>
                             <DialogContent>
-                                <p><strong>Begründung:</strong> {selectedStrich.reason}</p>
-                                <p>
-                                    <strong>Reporter:</strong>{" "}
-                                    {peopleWithStriche.find(person => person.person_id === selectedStrich.reporter_id)?.name || selectedStrich.reporter_id}
-                                </p>
-                                <p><strong>Datum:</strong> {selectedStrich.creation_date}</p>
+                                {/* ... other content ... */}
+
+                                {reasonImageSrc && (
+                                    <img
+                                        src={reasonImageSrc}
+                                        alt="Reason Image"
+                                        style={{maxWidth: '100%'}}
+                                    />
+                                )}
                             </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseStrichDialog}>Schließen</Button>
-                            </DialogActions>
+                            {/* ... other content ... */}
                         </Dialog>
                     )}
 
