@@ -168,17 +168,6 @@ export default function SpecificListPage() {
     }, [imageCache]);
 
     useEffect(() => {
-        const fetchReasonImage = async () => {
-            if (selectedStrich && selectedStrich.reason_image_id) {
-                const imageUrl = await getReasonImage(selectedStrich.uuid);
-                setReasonImageSrc(imageUrl);
-            }
-        };
-
-        fetchReasonImage();
-    }, [selectedStrich, getReasonImage]);
-
-    useEffect(() => {
         const fetchStriche = async () => {
             try {
                 fetch(
@@ -258,9 +247,16 @@ export default function SpecificListPage() {
         setDialogOpen(true);
     };
 
-    const handleOpenStrichDialog = (strich: Strich) => {
+    const handleOpenStrichDialog = async (strich: Strich) => {
         setSelectedStrich(strich);
         setStrichDialogOpen(true);
+
+        if (strich.reason_image_id) {
+            const imageUrl = await getReasonImage(strich.uuid);
+            setReasonImageSrc(imageUrl);
+        } else {
+            setReasonImageSrc(null); // Reset if no image
+        }
     };
 
     const handleOpenDoneDialog = (personId: string) => {
@@ -279,6 +275,7 @@ export default function SpecificListPage() {
     const handleCloseStrichDialog = () => {
         setStrichDialogOpen(false);
         setSelectedStrich(null);
+        setReasonImageSrc(null);
     };
 
     const handleCloseDoneDialog = () => {
@@ -508,7 +505,14 @@ export default function SpecificListPage() {
                         <Dialog open={strichDialogOpen} onClose={handleCloseStrichDialog}>
                             <DialogTitle>Strich Details</DialogTitle>
                             <DialogContent>
-                                {/* ... other content ... */}
+                                <p><strong>Begründung:</strong> {selectedStrich.reason}</p>
+                                <p>
+                                    <strong>Reporter:</strong>{" "}
+                                    {selectedStrich.reporter_id
+                                        ? peopleWithStriche.find(person => person.person_id === selectedStrich.reporter_id)?.name || selectedStrich.reporter_id
+                                        : "Automatic System"}
+                                </p>
+                                <p><strong>Datum:</strong> {selectedStrich.creation_date}</p>
 
                                 {reasonImageSrc && (
                                     <img
@@ -518,7 +522,9 @@ export default function SpecificListPage() {
                                     />
                                 )}
                             </DialogContent>
-                            {/* ... other content ... */}
+                            <DialogActions>
+                                <Button onClick={handleCloseStrichDialog}>Schließen</Button>
+                            </DialogActions>
                         </Dialog>
                     )}
 

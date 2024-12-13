@@ -14,7 +14,7 @@ import os
 MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost:9000")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minio_access_key")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minio_secret_key")
-MINIO_SECURE = os.getenv("MINIO_SECURE", False)
+MINIO_SECURE = os.getenv("MINIO_SECURE", "False")
 
 MINIO_SECURE_BOOL = MINIO_SECURE.lower() == "true"
 print(MINIO_SECURE_BOOL)

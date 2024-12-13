@@ -53,7 +53,7 @@ class Strich(Base):
     __tablename__ = "striche"
     uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     owner_id = Column(UUID(as_uuid=True), ForeignKey('persons.uuid'))
-    reporter_id = Column(UUID(as_uuid=True), ForeignKey('persons.uuid'))
+    reporter_id = Column(UUID(as_uuid=True), ForeignKey('persons.uuid'), nullable=True)
     list_id = Column(UUID(as_uuid=True), ForeignKey('listen.uuid'))
     creation_date = Column(Date)
     reason = Column(String, nullable=False)

@@ -1,5 +1,6 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,9 +15,8 @@ from backend.routers.lists import router as list_router
 from backend.routers.foto import router as foto_router
 from backend.dependencies.db import get_db
 from backend.dependencies.authentification import authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
-
-
-
+from backend.data import Database
+from backend.data.Database import Person, Strich, Liste, Foto
 app = FastAPI()
 
 origins = ["*"]
@@ -49,12 +49,38 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+def check_birthdays():
+    db = Database.SessionLocal()
+    today = datetime.now().date()
+    persons = db.query(Person).all()
+    for person in persons:
+        if person.geburtstag.month == today.month and person.geburtstag.day == today.day:
+            for liste in person.listen:
+                strich = Strich(
+                    owner_id=person.uuid,
+                    reporter_id=None,
+                    list_id=liste.uuid,
+                    creation_date=today,
+                    reason="Happy Birthday",
+                    reason_image_id=None,
+                    done=False,
+                    done_date=today,
+                    done_image_id=None,
+                )
+                db.add(strich)
+
+    db.commit()
+    db.close()
+
+# Scheduler-Setup
+scheduler = BackgroundScheduler()
+scheduler.add_job(check_birthdays, "cron", hour=0, minute=1)  # One Time per day at 00:01
+scheduler.start()
 
 app.include_router(person_router)
 app.include_router(strich_router)
 app.include_router(list_router)
 app.include_router(foto_router)
-
 import uvicorn
 uvicorn.run(app, host="0.0.0.0", port=8000)
 
