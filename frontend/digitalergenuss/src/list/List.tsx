@@ -17,6 +17,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import UploadIcon from '@mui/icons-material/Upload';
+import InfoIcon from '@mui/icons-material/Info';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {useParams, useNavigate} from 'react-router-dom';
 import {
     getCredentialCookie,
@@ -36,7 +38,7 @@ import MuiCard from "@mui/material/Card";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import Typography from "@mui/material/Typography";
-import {Image} from "@mui/icons-material";
+import Image from "@mui/icons-material";
 
 const Card = styled(MuiCard)(({theme}) => ({
     display: 'flex',
@@ -104,6 +106,8 @@ export default function SpecificListPage() {
     const [strichDialogOpen, setStrichDialogOpen] = useState<boolean>(false);
     const [doneDialogOpen, setDoneDialogOpen] = useState<boolean>(false);
     const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
+    const [selectedPersonInformation, setSelectedInformationPerson] = useState<string | null>(null);
+    const [informationDialogOpen, setInformationDialogOpen] = useState<boolean>(false);
     const [selectedStrich, setSelectedStrich] = useState<Strich | null>(null);
     const [reason, setReason] = useState<string>('');
     const [reasonImage, setReasonImage] = useState<string | null>(null);
@@ -140,6 +144,17 @@ export default function SpecificListPage() {
 
         return null;
     }, [imageCache]);
+
+    const getDoneStricheCount = (personId: string) => {
+        let temp = 0;
+
+        peopleWithStriche.find(person => person.person_id === personId)?.striche.map(strich => {
+            if (strich.done) {
+                temp++;
+            }
+        });
+        return temp;
+    }
 
     const getReasonImage = useCallback(async (strich_id: string) => {
         if (imageCache[strich_id]) {
@@ -281,6 +296,17 @@ export default function SpecificListPage() {
     const handleCloseDoneDialog = () => {
         setDoneDialogOpen(false);
     };
+
+
+    const handleOpenInformationDialog = (personId: string) => {
+        setSelectedInformationPerson(personId);
+        setInformationDialogOpen(true);
+    }
+
+    const handleCloseInformationDialog = () => {
+        setInformationDialogOpen(false);
+        setSelectedInformationPerson(null);
+    }
 
     const handleDoneStrich = async () => {
         if (!selectedPerson) return;
@@ -440,6 +466,10 @@ export default function SpecificListPage() {
                             const incompleteStriche = person.striche.filter(strich => !strich.done);
                             const maxIconsToShow = 3;
 
+                            // sort striche in ascending order by date
+                            incompleteStriche.sort((a, b) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
+
+
                             return (
                                 <ListItem key={person.person_id}>
                                     <Avatar src={person.imageUrl || undefined}
@@ -464,6 +494,9 @@ export default function SpecificListPage() {
                                         </IconButton>
                                         <IconButton onClick={() => handleOpenDoneDialog(person.person_id)}>
                                             <CheckIcon/>
+                                        </IconButton>
+                                        <IconButton onClick={() => handleOpenInformationDialog(person.person_id)}>
+                                            <InfoOutlinedIcon/>
                                         </IconButton>
                                     </div>
                                 </ListItem>
@@ -540,6 +573,16 @@ export default function SpecificListPage() {
                             <Button onClick={handleDoneStrich} color="primary">
                                 Abschließen
                             </Button>
+                        </DialogActions>
+                    </Dialog>
+
+                    <Dialog open={informationDialogOpen} onClick={handleCloseInformationDialog}>
+                        <DialogTitle>User Information</DialogTitle>
+                        <DialogContent>
+                            <p><strong>Abgeschlossene Striche:</strong> {getDoneStricheCount(selectedPersonInformation || "")}</p>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseInformationDialog}>Schließen</Button>
                         </DialogActions>
                     </Dialog>
                 </Card>

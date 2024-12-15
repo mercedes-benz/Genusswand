@@ -26,6 +26,10 @@ const Footer: React.FC = () => {
                     <Link component={RouterLink} to="/about" underline="hover">
                         About
                     </Link>
+                    {' | '}
+                    <Link href="https://github.com/DigitaleGenusswand/Genusswand" underline="hover">
+                        Github
+                    </Link>
                 </Typography>
             </Container>
         </Box>

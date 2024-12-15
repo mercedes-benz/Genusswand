@@ -8,6 +8,7 @@ import WelcomePage from "./welcome/WelcomePage";
 import SpecificListPage from "./list/List";
 import Impressum from "./standard/Impressum";
 import About from "./standard/About";
+import NotFoundPage from "./standard/404";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
             <Route path="/list/:listId" element={<SpecificListPage/>}/>
             <Route path="/impressum" element={<Impressum/>}/>
             <Route path="/about" element={<About/>}/>
-            <Route path="*" element={<div/>}/>
+            <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
     </BrowserRouter>
     </div>
