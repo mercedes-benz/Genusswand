@@ -161,7 +161,7 @@ const WelcomePage: React.FC = () => {
                 setLists(listsWithImages);
                 setLoading(false);
             } catch (error) {
-                setError('Fehler beim Abrufen der Listen');
+                setError('error occured while fetching lists');
                 logout()
                 setLoading(false);
             }
@@ -253,15 +253,15 @@ const WelcomePage: React.FC = () => {
             <DesignContainer direction="column" justifyContent="space-between">
                 <Card variant="outlined">
                     <Button variant="contained" style={{marginTop: '1rem',}} onClick={handleOpenDialog}>
-                        Neue Liste erstellen
+                        Create new Indulgence Wall
                     </Button>
                     <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-                        <DialogTitle>Neue Liste erstellen</DialogTitle>
+                        <DialogTitle>Create new Indulgence Wall</DialogTitle>
                         <DialogContent>
                             <TextField
                                 autoFocus
                                 margin="dense"
-                                label="Listenname"
+                                label="name"
                                 type="text"
                                 fullWidth
                                 variant="outlined"
@@ -278,7 +278,7 @@ const WelcomePage: React.FC = () => {
 
                             <label htmlFor="upload-button">
                                 <Button variant="contained" component="span" startIcon={<UploadIcon/>}>
-                                    Bild hochladen
+                                    upload image
                                 </Button>
                             </label>
                             <div style={{

@@ -6,89 +6,57 @@ const About: React.FC = () => {
         <Box sx={{p: 3}}>
             <Typography variant="h4">About Us</Typography>
             <Typography variant="body1" sx={{mt: 2}}>
-                Herzlich willkommen auf der digitalen Genusswand – der spaßigsten und genussvollsten Art, kleine
-                Alltagssünden im Büro zu feiern (oder zu büßen, je nach Perspektive). Hier wird aus jeder Panne, jedem
-                Fauxpas und jeder leichtsinnigen Aktion eine Gelegenheit, das Team zum Schmunzeln und den Magen zum
-                Freuen zu bringen.
+                Welcome to the digital indulgence wall – the most fun and delightful way to celebrate (or atone for, depending on your perspective) small everyday sins in the office. Here, every mishap, faux pas, and reckless action becomes an opportunity to make the team smile and the stomach rejoice.
             </Typography>
             <br/>
             <Typography variant="h5">
-                Was ist die Genusswand?
+                What is the indulgence wall?
             </Typography>
             <Typography variant="body1" sx={{mt: 2}}>
-                Die Genusswand ist mehr als nur eine Sammlung von Strichen – sie ist ein Ort der Gemeinschaft, der
-                Freude und des kollektiven Kalorienaufbaus. Früher zierten handgeschriebene Striche auf einer Tafel
-                unsere Bürowand, doch das digitale Zeitalter hat auch hier Einzug gehalten. Jetzt ist die Genusswand
-                online und bereit, jedes noch so kleine Missgeschick in ein Highlight des Tages zu verwandeln.
+                The indulgence wall is more than just a collection of marks – it is a place of community, joy, and collective calorie-building. In the past, handwritten marks adorned our office wall, but the digital age has arrived here as well. Now, the indulgence wall is online and ready to turn even the smallest mishap into the highlight of the day.
 
-                Einen Kundentermin vergessen? Zack, ein Strich. Die Kaffeemaschine nicht entkalkt? Strich. Den
-                legendären „Reply All“-Fehler begangen? Herzlichen Glückwunsch, auch das ist ein Strich! Doch keine
-                Sorge – jeder Strich ist nicht das Ende, sondern der Anfang einer genussvollen Wiedergutmachung.
+                Forgot a client meeting? Bam, a mark. Didn't descale the coffee machine? Mark. Made the legendary "Reply All" mistake? Congratulations, that's a mark too! But don't worry – every mark is not the end, but the beginning of a delightful atonement.
             </Typography>
             <br/>
             <Typography variant="h5">
-                Wie funktioniert das Prinzip?
+                How does it work?
             </Typography>
 
             <Typography variant="body1" sx={{mt: 2}}>
-                Die Regeln sind einfach:
+                The rules are simple:
                 <br/>
-                1. Verfehlung: Du machst einen kleinen Fehler – sei es ein verschütteter Kaffee, ein vergessener Termin
-                oder ein besonders mieser Witz im Team-Meeting.
+                1. Misstep: You make a small mistake – be it a spilled coffee, a forgotten appointment, or a particularly bad joke in the team meeting.
                 <br/>
-                2. Strich: Deine Verfehlung wird mit einem Strich auf der Genusswand „belohnt“.
+                2. Mark: Your misstep is "rewarded" with a mark on the indulgence wall.
                 <br/>
-                3. Abbau: Jeder Strich kann mit einem Genussmittel beglichen werden. Kuchen, Kekse, Muffins – der
-                Fantasie
-                sind keine Grenzen gesetzt. Hauptsache, es zaubert ein Lächeln auf die Gesichter deiner Kolleg*innen
-                (und füllt den Pausenraum mit Kalorien).
+                3. Atonement: Each mark can be atoned for with a treat. Cake, cookies, muffins – the sky's the limit. The main thing is that it brings a smile to your colleagues' faces (and fills the break room with calories).
             </Typography>
 
             <br/>
             <Typography variant="h5">
-                Warum ist die Genusswand gut?
+                Why is the indulgence wall good?
             </Typography>
             <Typography variant="body1" sx={{mt: 2}}>
-                Die Genusswand ist nicht nur ein humorvolles Gimmick, sondern auch ein echter Teamplayer. Sie verwandelt
-                kleine Fehler in süße Highlights und sorgt dafür, dass das Büroklima locker bleibt. Statt sich über
-                Missgeschicke zu ärgern, freuen wir uns auf die nächste Leckerei.
-
-                Sie fördert auch die Kreativität: Von selbstgebackenem Bananenbrot bis hin zu kunstvoll dekorierten
-                Donuts – jede Wiedergutmachung ist ein kleines kulinarisches Kunstwerk. Außerdem fördert sie den
-                Teamzusammenhalt: Nichts schweißt ein Team mehr zusammen als das gemeinsame Verspeisen eines
-                Schokoladenkuchens.
+                The indulgence wall is not just a humorous gimmick, but also a real team player. It turns small mistakes into sweet highlights and ensures that the office atmosphere remains relaxed. Instead of getting annoyed about mishaps, we look forward to the next treat. It also fosters creativity: from homemade banana bread to artfully decorated donuts – every atonement is a small culinary masterpiece. Additionally, it promotes team cohesion: nothing brings a team together more than sharing a chocolate cake.
             </Typography>
 
             <br/>
 
             <Typography variant="h5">
-                Warum digital?
+                Why digital?
             </Typography>
             <Typography variant="body1" sx={{mt: 2}}>
-                Weil wir gerne up to date sind und niemand mehr Lust hat, nach einem verschwundenen Kreidestift zu
-                suchen. Unsere digitale Genusswand ist immer griffbereit, übersichtlich und – das Beste – anonymisiert
-                die Verfehlungen auf Wunsch, um peinliche Momente in süße Erinnerungen zu verwandeln.
+                Because we like to stay up to date and no one wants to search for a missing chalk stick anymore. Our digital indulgence wall is always at hand, clear, and – best of all – anonymizes the missteps on request to turn embarrassing moments into sweet memories.
             </Typography>
 
             <br/>
 
             <Typography variant="h5">
-                Der wahre Genuss
+                The true indulgence
             </Typography>
             <Typography variant="body1" sx={{mt: 2}}>
-                Die Genusswand ist nicht nur ein System, sondern ein Lebensgefühl. Sie zeigt uns, dass Fehler menschlich
-                sind und dass man sie mit einem Lächeln und einem Stück Kuchen wieder gutmachen kann.
-
-                Also, falls du dich fragst, warum es hier immer nach frisch gebackenem Apfelkuchen duftet oder warum im
-                Pausenraum ein Kampf um das letzte Schoko-Croissant ausbricht – jetzt weißt du es.
-
-                Wir laden dich ein, ein Teil dieses humorvollen Rituals zu sein. Sei bereit, Fehler zu machen, Striche
-                zu sammeln und die Kunst des Genusses zu perfektionieren. Denn am Ende des Tages zählt nicht der Strich,
-                sondern der Kuchen, der ihn tilgt.
-
-                In diesem Sinne: Frohes Schlemmen und viel Spaß mit der Genusswand!
+                The indulgence wall is not just a system, but a way of life. It shows us that mistakes are human and that they can be made up for with a smile and a piece of cake. So, if you're wondering why it always smells like freshly baked apple pie here or why there's a fight over the last chocolate croissant in the break room – now you know. We invite you to be part of this humorous ritual. Be ready to make mistakes, collect marks, and perfect the art of indulgence. Because at the end of the day, it's not the mark that counts, but the cake that erases it. In this spirit: Happy indulging and have fun with the indulgence wall!
             </Typography>
-
         </Box>
     );
 };

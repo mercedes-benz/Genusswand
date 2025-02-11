@@ -23,10 +23,10 @@ const NotFoundPage = () => {
                 404
             </Typography>
             <Typography variant="h5" sx={{ mb: 3 }}>
-                Oops! Diese Seite ist wohl verloren gegangen...
+                Oops! This page seems to be lost...
             </Typography>
             <Typography variant="body1" sx={{ mb: 4 }}>
-                Vielleicht hast du dich verlaufen? Oder wir haben etwas kaputt gemacht. 🤷‍♂️
+                Maybe you got lost? Or we broke something 🤷‍♂️
             </Typography>
             <Button
                 variant="contained"
@@ -35,7 +35,7 @@ const NotFoundPage = () => {
                 to="/"
                 sx={{ textTransform: 'none', fontWeight: 'bold', fontSize: '1rem' }}
             >
-                Zurück zur Startseite
+                Back to the homepage
             </Button>
             <Box
                 sx={{
@@ -47,7 +47,7 @@ const NotFoundPage = () => {
                 }}
             >
                 <Typography variant="caption">
-                    Es tut uns leid, die Seite wurde vom Internet verschluckt! 🕳️🌍
+                    We're sorry, the page has been swallowed by the internet! 🕳️🌍
                 </Typography>
             </Box>
         </Box>
